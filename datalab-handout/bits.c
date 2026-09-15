@@ -1,3 +1,11 @@
+/*
+ * Data Lab: Manipulating Bits
+ * Optimized solution
+ *
+ * Integer puzzles use only the operators permitted by the lab.
+ * Floating-point puzzles use integer/unsigned operations only.
+ */
+
 int bitXor(int x, int y) {
   return ~(x & y) & ~(~x & ~y);
 }
@@ -47,7 +55,7 @@ int isEqual(int x, int y) {
 
 int divpwr2(int x, int n) {
   int s = x >> 31;
-  int bias = s & (s + (1 << n));
+  int bias = (s << n) ^ s;
 
   return (x + bias) >> n;
 }
@@ -106,8 +114,7 @@ int float_f2i(unsigned uf) {
   if (e > 157)
     return 0x80000000u;
 
-  frac = ((uf & 0x7FFFFF) | 0x800000) << 7;
-  frac = frac >> (157 - e);
+  frac = ((uf << 8) | 0x80000000u) >> (158 - e);
 
   if (uf & 0x80000000u)
     return -frac;
